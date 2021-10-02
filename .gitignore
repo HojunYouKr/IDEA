@@ -1,0 +1,7 @@
+# Visual studio project
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Compiled Object files
+x64/*
