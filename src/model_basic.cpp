@@ -51,7 +51,7 @@ void Model::Derivative(const double* x, double* dfdx) {
         DiffTransfer(Ai_[i * 2] * x[0] + Ai_[i * 2 + 1] * x[1] + bi_[i]) *
         Ao_[i];
     dfdx[0] += (temp * Ai_[i * 2]);
-    dfdx[1] += (temp * Ai_[i * 2] + 1);
+    dfdx[1] += (temp * Ai_[i * 2 + 1]);
   }
 }
 void Model::Derivative(const double* x, double* f, double* dfdx) {
@@ -60,7 +60,7 @@ void Model::Derivative(const double* x, double* f, double* dfdx) {
   for (int i = 0; i < m; i++) {
     const double temp = DiffTransfer(yi_[i]) * Ao_[i];
     dfdx[0] += (temp * Ai_[i * 2]);
-    dfdx[1] += (temp * Ai_[i * 2] + 1);
+    dfdx[1] += (temp * Ai_[i * 2 + 1]);
   }
 }
 inline double Model::Transfer(const double input) const {
