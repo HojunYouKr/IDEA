@@ -16,8 +16,7 @@ Model::Model()
       Ao_(nullptr),
       bo_(nullptr),
       Ai_(nullptr),
-      bi_(nullptr),
-      yi_() {}
+      bi_(nullptr) {}
 bool Model::Init(const std::string& filename) {
   std::ifstream fin(filename);
   if (fin.is_open() == false) return false;
@@ -31,20 +30,19 @@ bool Model::Init(const std::string& filename) {
   bo_ = &weights_[m];
   Ai_ = &weights_[m + 1];
   bi_ = &weights_[3 * m + 1];
-  yi_.resize(m, 0.0);
 
   for (int i = 0; i < num_parameter_; i++) fin >> weights_[i];
   fin.close();
   return true;
 }
-void Model::Pred(const double* x, double* f) {
+void Model::Pred(const double* x, double* f) const {
   *f = bo_[0];
   for (int i = 0; i < m; i++) {
-    yi_[i] = Ai_[i * 2] * x[0] + Ai_[i * 2 + 1] * x[1] + bi_[i];
-    *f += (Ao_[i] * Transfer(yi_[i]));
+    const double yi = Ai_[i * 2] * x[0] + Ai_[i * 2 + 1] * x[1] + bi_[i];
+    *f += (Ao_[i] * Transfer(yi));
   }
 }
-void Model::Derivative(const double* x, double* dfdx) {
+void Model::Derivative(const double* x, double* dfdx) const {
   dfdx[0] = dfdx[1] = 0.0;
   for (int i = 0; i < m; i++) {
     const double temp =
@@ -54,11 +52,14 @@ void Model::Derivative(const double* x, double* dfdx) {
     dfdx[1] += (temp * Ai_[i * 2 + 1]);
   }
 }
-void Model::Derivative(const double* x, double* f, double* dfdx) {
-  Pred(x, f);
+void Model::Derivative(const double* x, double* f, double* dfdx) const {
+  *f = bo_[0];
   dfdx[0] = dfdx[1] = 0.0;
   for (int i = 0; i < m; i++) {
-    const double temp = DiffTransfer(yi_[i]) * Ao_[i];
+    const double yi = Ai_[i * 2] * x[0] + Ai_[i * 2 + 1] * x[1] + bi_[i];
+    *f += (Ao_[i] * Transfer(yi));
+
+    const double temp = DiffTransfer(yi) * Ao_[i];
     dfdx[0] += (temp * Ai_[i * 2]);
     dfdx[1] += (temp * Ai_[i * 2 + 1]);
   }

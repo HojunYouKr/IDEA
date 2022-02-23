@@ -22,8 +22,6 @@ class Model {
   double* bo_;  // (SCALAR) 1 * 1
   double* Ai_;  // (MATRIX) m * 2
   double* bi_;  // (VECTOR) m * 1
-  
-  std::vector<double> yi_;  // (VECTOR) m * 1
 
   // f = Ao*xo + bo
   // xo = Transfer(yi)
@@ -36,9 +34,9 @@ class Model {
   inline double GetAccuracy(void) const { return accuracy_; };
 
   bool Init(const std::string& filename);
-  void Pred(const double* x, double* f);
-  void Derivative(const double* x, double* dfdx);
-  void Derivative(const double* x, double* f, double* dfdx);
+  void Pred(const double* x, double* f) const;
+  void Derivative(const double* x, double* dfdx) const;
+  void Derivative(const double* x, double* f, double* dfdx) const;
 
  private:
   inline double Transfer(const double input) const;
