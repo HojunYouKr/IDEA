@@ -39,7 +39,7 @@ void RemoveString(std::string& str, const std::vector<char>& drops) {
   for (auto&& it = drops.begin(); it < drops.end(); it++)
     str.erase(std::remove(str.begin(), str.end(), *it), str.end());
 }
-}
+}  // namespace IDEA_internal
 
 const char* IDEA_Init(const char* modeldir, const char* errlev) {
   using namespace IDEA;
@@ -143,25 +143,26 @@ namespace IDEA {
 std::string string_buffer;
 }  // namespace IDEA
 
-#define IDEA_MODEL_DEF(x1, x2, y)                                             \
-  namespace IDEA {                                                            \
-  std::shared_ptr<Model> x1##x2##y;                                           \
-  }                                                                           \
-  double x1##x2##y##_ANN(const double x1, const double x2) {                  \
-    using namespace IDEA;                                                     \
-    const double x[2] = {std::log(x1), std::log(x2)};                         \
-    double ln##y;                                                             \
-    x1##x2##y##->Pred(x, &ln##y);                                             \
-    return std::exp(ln##y);                                                   \
-  }                                                                           \
-  void x1##x2##y##_diff_ANN(double* diff, const double x1, const double x2) { \
-    using namespace IDEA;                                                     \
-    const double x[2] = {std::log(x1), std::log(x2)};                         \
-    double ln##y;                                                             \
-    x1##x2##y##->Derivative(x, &ln##y, diff);                                 \
-    const double y = std::exp(ln##y);                                         \
-    diff[0] *= (y / x1);                                                      \
-    diff[1] *= (y / x2);                                                      \
+#define IDEA_MODEL_DEF(x1, x2, y)                               \
+  namespace IDEA {                                              \
+  std::shared_ptr<Model> x1##x2##y;                             \
+  }                                                             \
+  double IDEA_##x1##x2##y##(const double x1, const double x2) { \
+    using namespace IDEA;                                       \
+    const double x[2] = {std::log(x1), std::log(x2)};           \
+    double ln##y;                                               \
+    x1##x2##y##->Pred(x, &ln##y);                               \
+    return std::exp(ln##y);                                     \
+  }                                                             \
+  void IDEA_##x1##x2##y##_Grad(double* diff, const double x1,   \
+                               const double x2) {               \
+    using namespace IDEA;                                       \
+    const double x[2] = {std::log(x1), std::log(x2)};           \
+    double ln##y;                                               \
+    x1##x2##y##->Derivative(x, &ln##y, diff);                   \
+    const double y = std::exp(ln##y);                           \
+    diff[0] *= (y / x1);                                        \
+    diff[1] *= (y / x2);                                        \
   }
 
 IDEA_MODEL_DEF(D, E, P);
@@ -185,23 +186,24 @@ IDEA_MODEL_DEF(P, T, K);
 IDEA_MODEL_DEF(D, P, T);
 IDEA_MODEL_DEF(D, P, E);
 
-#define IDEA_MODEL_DEF2(x1, x2, y)                                            \
-  namespace IDEA {                                                            \
-  std::shared_ptr<Model> x1##x2##y;                                           \
-  }                                                                           \
-  double x1##x2##y##_ANN(const double x1, const double x2) {                  \
-    using namespace IDEA;                                                     \
-    const double x[2] = {std::log(x1), std::log(x2)};                         \
-    double y;                                                                 \
-    x1##x2##y##->Pred(x, &y);                                                 \
-    return y;                                                                 \
-  }                                                                           \
-  void x1##x2##y##_diff_ANN(double* diff, const double x1, const double x2) { \
-    using namespace IDEA;                                                     \
-    const double x[2] = {std::log(x1), std::log(x2)};                         \
-    x1##x2##y##->Derivative(x, diff);                                         \
-    diff[0] /= x1;                                                            \
-    diff[1] /= x2;                                                            \
+#define IDEA_MODEL_DEF2(x1, x2, y)                              \
+  namespace IDEA {                                              \
+  std::shared_ptr<Model> x1##x2##y;                             \
+  }                                                             \
+  double IDEA_##x1##x2##y##(const double x1, const double x2) { \
+    using namespace IDEA;                                       \
+    const double x[2] = {std::log(x1), std::log(x2)};           \
+    double y;                                                   \
+    x1##x2##y##->Pred(x, &y);                                   \
+    return y;                                                   \
+  }                                                             \
+  void IDEA_##x1##x2##y##_Grad(double* diff, const double x1,   \
+                               const double x2) {               \
+    using namespace IDEA;                                       \
+    const double x[2] = {std::log(x1), std::log(x2)};           \
+    x1##x2##y##->Derivative(x, diff);                           \
+    diff[0] /= x1;                                              \
+    diff[1] /= x2;                                              \
   }
 
 IDEA_MODEL_DEF2(D, E, G);

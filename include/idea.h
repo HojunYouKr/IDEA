@@ -42,51 +42,51 @@ IDEA_API(const char*) IDEA_Init(const char* modeldir, const char* errlev);
 IDEA_API(const char*) IDEA_Finalize(void);
 IDEA_API(const char*) IDEA_Units(void);
 
-IDEA_API(double) DEP_ANN(const double D, const double E);
-IDEA_API(double) DET_ANN(const double D, const double E);
-IDEA_API(double) DEH_ANN(const double D, const double E);
-IDEA_API(double) DES_ANN(const double D, const double E);
-IDEA_API(double) DEA_ANN(const double D, const double E);
-IDEA_API(double) DEC_ANN(const double D, const double E);
-IDEA_API(double) DEG_ANN(const double D, const double E);
-IDEA_API(double) DEV_ANN(const double D, const double E);
-IDEA_API(double) DEK_ANN(const double D, const double E);
+IDEA_API(double) IDEA_DEP(const double D, const double E);
+IDEA_API(double) IDEA_DET(const double D, const double E);
+IDEA_API(double) IDEA_DEH(const double D, const double E);
+IDEA_API(double) IDEA_DES(const double D, const double E);
+IDEA_API(double) IDEA_DEA(const double D, const double E);
+IDEA_API(double) IDEA_DEC(const double D, const double E);
+IDEA_API(double) IDEA_DEG(const double D, const double E);
+IDEA_API(double) IDEA_DEV(const double D, const double E);
+IDEA_API(double) IDEA_DEK(const double D, const double E);
 
-IDEA_API(double) PTD_ANN(const double P, const double T);
-IDEA_API(double) PTE_ANN(const double P, const double T);
-IDEA_API(double) PTH_ANN(const double P, const double T);
-IDEA_API(double) PTS_ANN(const double P, const double T);
-IDEA_API(double) PTA_ANN(const double P, const double T);
-IDEA_API(double) PTC_ANN(const double P, const double T);
-IDEA_API(double) PTG_ANN(const double P, const double T);
-IDEA_API(double) PTV_ANN(const double P, const double T);
-IDEA_API(double) PTK_ANN(const double P, const double T);
+IDEA_API(double) IDEA_PTD(const double P, const double T);
+IDEA_API(double) IDEA_PTE(const double P, const double T);
+IDEA_API(double) IDEA_PTH(const double P, const double T);
+IDEA_API(double) IDEA_PTS(const double P, const double T);
+IDEA_API(double) IDEA_PTA(const double P, const double T);
+IDEA_API(double) IDEA_PTC(const double P, const double T);
+IDEA_API(double) IDEA_PTG(const double P, const double T);
+IDEA_API(double) IDEA_PTV(const double P, const double T);
+IDEA_API(double) IDEA_PTK(const double P, const double T);
 
-IDEA_API(double) DPT_ANN(const double D, const double P);
-IDEA_API(double) DPE_ANN(const double D, const double P);
+IDEA_API(double) IDEA_DPT(const double D, const double P);
+IDEA_API(double) IDEA_DPE(const double D, const double P);
 
-IDEA_API(void) DEP_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DET_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DEH_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DES_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DEA_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DEC_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DEG_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DEV_diff_ANN(double* diff, const double D, const double E);
-IDEA_API(void) DEK_diff_ANN(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DEP_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DET_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DEH_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DES_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DEA_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DEC_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DEG_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DEV_Grad(double* diff, const double D, const double E);
+IDEA_API(void) IDEA_DEK_Grad(double* diff, const double D, const double E);
 
-IDEA_API(void) PTD_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTE_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTH_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTS_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTA_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTC_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTG_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTV_diff_ANN(double* diff, const double P, const double T);
-IDEA_API(void) PTK_diff_ANN(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTD_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTE_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTH_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTS_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTA_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTC_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTG_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTV_Grad(double* diff, const double P, const double T);
+IDEA_API(void) IDEA_PTK_Grad(double* diff, const double P, const double T);
 
-IDEA_API(void) DPT_diff_ANN(double* diff, const double D, const double P);
-IDEA_API(void) DPE_diff_ANN(double* diff, const double D, const double P);
+IDEA_API(void) IDEA_DPT_Grad(double* diff, const double D, const double P);
+IDEA_API(void) IDEA_DPE_Grad(double* diff, const double D, const double P);
 
 #ifdef __cplusplus
 }
