@@ -37,10 +37,13 @@ class Model {
   void Pred(const double* x, double* f) const;
   void Derivative(const double* x, double* dfdx) const;
   void Derivative(const double* x, double* f, double* dfdx) const;
+  void Derivative2(const double* x, double* f, double* dfdx,
+                   double* dfdx2) const;
 
  private:
   inline double Transfer(const double input) const;
   inline double DiffTransfer(const double input) const;
+  inline double Diff2Transfer(const double input) const;
 };
 
 extern std::string string_buffer;

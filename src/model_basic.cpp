@@ -64,11 +64,34 @@ void Model::Derivative(const double* x, double* f, double* dfdx) const {
     dfdx[1] += (temp * Ai_[i * 2 + 1]);
   }
 }
+void Model::Derivative2(const double* x, double* f, double* dfdx,
+                        double* dfdx2) const {
+  *f = bo_[0];
+  dfdx[0] = dfdx[1] = 0.0;
+  dfdx2[0] = dfdx2[1] = dfdx2[2] = 0.0;
+  for (int i = 0; i < m; i++) {
+    const double yi = Ai_[i * 2] * x[0] + Ai_[i * 2 + 1] * x[1] + bi_[i];
+    *f += (Ao_[i] * Transfer(yi));
+
+    const double temp = DiffTransfer(yi) * Ao_[i];
+    dfdx[0] += (temp * Ai_[i * 2]);
+    dfdx[1] += (temp * Ai_[i * 2 + 1]);
+
+    const double temp2 = Diff2Transfer(yi) * Ao_[i];
+    dfdx2[0] += (temp2 * Ai_[i * 2] * Ai_[i * 2]);
+    dfdx2[1] += (temp2 * Ai_[i * 2] * Ai_[i * 2 + 1]);
+    dfdx2[2] += (temp2 * Ai_[i * 2 + 1] * Ai_[i * 2 + 1]);
+  }
+}
 inline double Model::Transfer(const double input) const {
   return 1.0 / (1.0 + std::exp(input));
 }
 inline double Model::DiffTransfer(const double input) const {
   const double s = Transfer(input);
   return s * (s - 1.0);
+}
+inline double Model::Diff2Transfer(const double input) const {
+  const double s = Transfer(input);
+  return s * (s - 1.0) * (2.0 * s - 1.0);
 }
 }  // namespace IDEA

@@ -143,27 +143,42 @@ namespace IDEA {
 std::string string_buffer;
 }  // namespace IDEA
 
-#define IDEA_MODEL_DEF(x1, x2, y)                               \
-  namespace IDEA {                                              \
-  std::shared_ptr<Model> x1##x2##y;                             \
-  }                                                             \
-  double IDEA_##x1##x2##y##(const double x1, const double x2) { \
-    using namespace IDEA;                                       \
-    const double x[2] = {std::log(x1), std::log(x2)};           \
-    double ln##y;                                               \
-    x1##x2##y##->Pred(x, &ln##y);                               \
-    return std::exp(ln##y);                                     \
-  }                                                             \
-  void IDEA_##x1##x2##y##_Grad(double* diff, const double x1,   \
-                               const double x2) {               \
-    using namespace IDEA;                                       \
-    const double x[2] = {std::log(x1), std::log(x2)};           \
-    double ln##y;                                               \
-    x1##x2##y##->Derivative(x, &ln##y, diff);                   \
-    const double y = std::exp(ln##y);                           \
-    diff[0] *= (y / x1);                                        \
-    diff[1] *= (y / x2);                                        \
-  }
+#define IDEA_MODEL_DEF(x1, x2, y)                                             \
+  namespace IDEA {                                                            \
+  std::shared_ptr<Model> x1##x2##y;                                           \
+  }                                                                           \
+  double IDEA_##x1##x2##y##(const double x1, const double x2) {               \
+    using namespace IDEA;                                                     \
+    const double x[2] = {std::log(x1), std::log(x2)};                         \
+    double ln##y;                                                             \
+    x1##x2##y##->Pred(x, &ln##y);                                             \
+    return std::exp(ln##y);                                                   \
+  }                                                                           \
+  double IDEA_##x1##x2##y##_Grad(double* grad, const double x1,               \
+                                 const double x2) {                           \
+    using namespace IDEA;                                                     \
+    const double x[2] = {std::log(x1), std::log(x2)};                         \
+    double ln##y;                                                             \
+    x1##x2##y##->Derivative(x, &ln##y, grad);                                 \
+    const double y = std::exp(ln##y);                                         \
+    grad[0] *= (y / x1);                                                      \
+    grad[1] *= (y / x2);                                                      \
+    return y;                                                                 \
+  }                                                                           \
+  double IDEA_##x1##x2##y##_Hess(double* hess, double* grad, const double x1, \
+                                 const double x2) {                           \
+    using namespace IDEA;                                                     \
+    const double x[2] = {std::log(x1), std::log(x2)};                         \
+    double ln##y;                                                             \
+    x1##x2##y##->Derivative2(x, &ln##y, grad, hess);                          \
+    const double y = std::exp(ln##y);                                         \
+    hess[0] = (y / x1 / x1) * (grad[0] * (grad[0] - 1.0) + hess[0]);          \
+    hess[1] = (y / x1 / x2) * (grad[0] * grad[1] + hess[1]);                  \
+    hess[2] = (y / x2 / x2) * (grad[1] * (grad[1] - 1.0) + hess[2]);          \
+    grad[0] *= (y / x1);                                                      \
+    grad[1] *= (y / x2);                                                      \
+    return y;                                                                 \
+  }  
 
 IDEA_MODEL_DEF(D, E, P);
 IDEA_MODEL_DEF(D, E, T);
@@ -186,24 +201,39 @@ IDEA_MODEL_DEF(P, T, K);
 IDEA_MODEL_DEF(D, P, T);
 IDEA_MODEL_DEF(D, P, E);
 
-#define IDEA_MODEL_DEF2(x1, x2, y)                              \
-  namespace IDEA {                                              \
-  std::shared_ptr<Model> x1##x2##y;                             \
-  }                                                             \
-  double IDEA_##x1##x2##y##(const double x1, const double x2) { \
-    using namespace IDEA;                                       \
-    const double x[2] = {std::log(x1), std::log(x2)};           \
-    double y;                                                   \
-    x1##x2##y##->Pred(x, &y);                                   \
-    return y;                                                   \
-  }                                                             \
-  void IDEA_##x1##x2##y##_Grad(double* diff, const double x1,   \
-                               const double x2) {               \
-    using namespace IDEA;                                       \
-    const double x[2] = {std::log(x1), std::log(x2)};           \
-    x1##x2##y##->Derivative(x, diff);                           \
-    diff[0] /= x1;                                              \
-    diff[1] /= x2;                                              \
+#define IDEA_MODEL_DEF2(x1, x2, y)                                            \
+  namespace IDEA {                                                            \
+  std::shared_ptr<Model> x1##x2##y;                                           \
+  }                                                                           \
+  double IDEA_##x1##x2##y##(const double x1, const double x2) {               \
+    using namespace IDEA;                                                     \
+    const double x[2] = {std::log(x1), std::log(x2)};                         \
+    double y;                                                                 \
+    x1##x2##y##->Pred(x, &y);                                                 \
+    return y;                                                                 \
+  }                                                                           \
+  double IDEA_##x1##x2##y##_Grad(double* grad, const double x1,               \
+                                 const double x2) {                           \
+    using namespace IDEA;                                                     \
+    const double x[2] = {std::log(x1), std::log(x2)};                         \
+    double y;                                                                 \
+    x1##x2##y##->Derivative(x, &y, grad);                                     \
+    grad[0] /= x1;                                                            \
+    grad[1] /= x2;                                                            \
+    return y;                                                                 \
+  }                                                                           \
+  double IDEA_##x1##x2##y##_Hess(double* hess, double* grad, const double x1, \
+                                 const double x2) {                           \
+    using namespace IDEA;                                                     \
+    const double x[2] = {std::log(x1), std::log(x2)};                         \
+    double y;                                                                 \
+    x1##x2##y##->Derivative2(x, &y, grad, hess);                              \
+    hess[0] = (hess[0] - grad[0]) / x1 / x1;                                  \
+    hess[1] /= (x1 * x2);                                                     \
+    hess[2] = (hess[2] - grad[1]) / x2 / x2;                                  \
+    grad[0] /= x1;                                                            \
+    grad[1] /= x2;                                                            \
+    return y;                                                                 \
   }
 
 IDEA_MODEL_DEF2(D, E, G);
