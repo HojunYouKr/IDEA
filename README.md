@@ -10,13 +10,13 @@ IDEA is an open-source library supporting infinitely differentiable ANN-based mo
 ## Citing IDEA
 Please cite the following article when mentioning IDEA in your own papers.
 
-* Hojun You, Juhyun Kim, Kyeol Yune, and Chongam Kim, Infinitely Differentiable ANN-based Model to Predict Equilibrium Air Properties up to 25,000 K for Hypersonic Flow Simulations. *Manuscript in preparation*, 2021.
+* Hojun You, Juhyun Kim, Kyeol Yune, and Chongam Kim, IDEA: Artificial Neural Network Models for 11-species Air Properties at Thermochemical Equilibrium. *Manuscript in preparation*, 2022.
 
 **Bibtex**
 ```bibtex
-@article{You2021,
-  title   = {Infinitely Differentiable ANN-based Model to Predict Equilibrium Air Properties up to 25,000 K for Hypersonic Flow Simulations},
+@article{You2022artificial,
+  title   = {{IDEA: Artificial Neural Network Models for 11-species Air Properties at Thermochemical Equilibrium}},
   author = {You, Hojun and Kim, Juhyun and Yune, Kyeol and Kim, Chongam},
   journal = {Manuscript in preparation},
-  year = {2021}
+  year = {2022}
 }
