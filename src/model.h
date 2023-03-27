@@ -35,6 +35,7 @@ class Model {
 
   bool Init(const std::string& filename);
   void Pred(const double* x, double* f) const;
+  void Pred(const int n, const double* x, double* f) const;
   void Derivative(const double* x, double* dfdx) const;
   void Derivative(const double* x, double* f, double* dfdx) const;
   void Derivative2(const double* x, double* f, double* dfdx,

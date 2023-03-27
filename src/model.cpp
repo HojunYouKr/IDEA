@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #include "idea.h"
 #include "model.h"
@@ -178,6 +179,19 @@ std::string string_buffer;
     grad[0] *= (y / x1);                                                      \
     grad[1] *= (y / x2);                                                      \
     return y;                                                                 \
+  }                                                                           \
+  void IDEA_##x1##x2##y##_batch(const int n, const double* x1,                \
+                                const double* x2, double* y) {                \
+  using namespace IDEA;                                                       \
+  std::vector<double> x(n * 2);                                               \
+  for (int i = 0; i < n; i++) {                                               \
+    x[i * 2] = std::log(x1[i]);                                               \
+    x[i * 2 + 1] = std::log(x2[i]);                                           \
+  }                                                                           \
+  double* ln##y = y;                                                          \
+  x1##x2##y->Pred(n, &x[0], ln##y);                                           \
+  for (int i = 0; i < n; i++)                                                 \
+    y[i] = std::exp(ln##y[i]);                                                \
   }
 
 IDEA_MODEL_DEF(D, E, P);
@@ -234,6 +248,16 @@ IDEA_MODEL_DEF(D, P, E);
     grad[0] /= x1;                                                            \
     grad[1] /= x2;                                                            \
     return y;                                                                 \
+  }                                                                           \
+  void IDEA_##x1##x2##y##_batch(const int n, const double* x1,                \
+                                const double* x2, double* y) {                \
+  using namespace IDEA;                                                       \
+  std::vector<double> x(n * 2);                                               \
+  for (int i = 0; i < n; i++) {                                               \
+    x[i * 2] = std::log(x1[i]);                                               \
+    x[i * 2 + 1] = std::log(x2[i]);                                           \
+  }                                                                           \
+  x1##x2##y->Pred(n, &x[0], y);                                               \
   }
 
 IDEA_MODEL_DEF2(D, E, G);

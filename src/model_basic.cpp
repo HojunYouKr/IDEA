@@ -42,6 +42,17 @@ void Model::Pred(const double* x, double* f) const {
     *f += (Ao_[i] * Transfer(yi));
   }
 }
+void Model::Pred(const int n, const double* x, double* f) const {
+  for (int j = 0; j < n; j++) {
+    f[j] = bo_[0];
+    const double x1 = x[2 * j];
+    const double x2 = x[2 * j + 1];
+    for (int i = 0; i < m; i++) {
+      const double yi = Ai_[i * 2] * x1 + Ai_[i * 2 + 1] * x2 + bi_[i];
+      f[j] += (Ao_[i] * Transfer(yi));
+    }
+  }
+}
 void Model::Derivative(const double* x, double* dfdx) const {
   dfdx[0] = dfdx[1] = 0.0;
   for (int i = 0; i < m; i++) {

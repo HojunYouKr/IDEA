@@ -20,7 +20,7 @@
  * IDEA's version number
  *------------------------------------------------------------------------*/
 
-#define IDEA_VER_MAJOR 0
+#define IDEA_VER_MAJOR 1
 #define IDEA_VER_MINOR 0
 #define IDEA_VER_SUBMINOR 0
 
@@ -130,6 +130,30 @@ IDEA_API(double)
 IDEA_DPT_Hess(double* hess, double* grad, const double D, const double P);
 IDEA_API(double)
 IDEA_DPE_Hess(double* hess, double* grad, const double D, const double P);
+
+IDEA_API(void) IDEA_DEP_batch(const int n, const double* D, const double* E, double* P);
+IDEA_API(void) IDEA_DET_batch(const int n, const double* D, const double* E, double* T);
+IDEA_API(void) IDEA_DEH_batch(const int n, const double* D, const double* E, double* H);
+IDEA_API(void) IDEA_DES_batch(const int n, const double* D, const double* E, double* S);
+IDEA_API(void) IDEA_DEA_batch(const int n, const double* D, const double* E, double* A);
+IDEA_API(void) IDEA_DEC_batch(const int n, const double* D, const double* E, double* C);
+IDEA_API(void) IDEA_DEG_batch(const int n, const double* D, const double* E, double* G);
+IDEA_API(void) IDEA_DEV_batch(const int n, const double* D, const double* E, double* V);
+IDEA_API(void) IDEA_DEK_batch(const int n, const double* D, const double* E, double* K);
+
+IDEA_API(void) IDEA_PTD_batch(const int n, const double* P, const double* T, double* D);
+IDEA_API(void) IDEA_PTE_batch(const int n, const double* P, const double* T, double* E);
+IDEA_API(void) IDEA_PTH_batch(const int n, const double* P, const double* T, double* H);
+IDEA_API(void) IDEA_PTS_batch(const int n, const double* P, const double* T, double* S);
+IDEA_API(void) IDEA_PTA_batch(const int n, const double* P, const double* T, double* A);
+IDEA_API(void) IDEA_PTC_batch(const int n, const double* P, const double* T, double* C);
+IDEA_API(void) IDEA_PTG_batch(const int n, const double* P, const double* T, double* G);
+IDEA_API(void) IDEA_PTV_batch(const int n, const double* P, const double* T, double* V);
+IDEA_API(void) IDEA_PTK_batch(const int n, const double* P, const double* T, double* K);
+
+IDEA_API(void) IDEA_DPT_batch(const int n, const double* D, const double* P, double* T);
+IDEA_API(void) IDEA_DPE_batch(const int n, const double* D, const double* P, double* E);
+
 #ifdef __cplusplus
 }
 #endif
