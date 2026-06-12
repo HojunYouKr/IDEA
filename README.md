@@ -11,6 +11,10 @@ IDEA is an open-source library supporting infinitely differentiable ANN-based mo
 
 A Python wrapper (pyIDEA) for IDEA is provided by Prof. Jinseok Park (Inha University) at this link: [https://gitlab.com/jspark_aadl/pyidea](https://gitlab.com/jspark_aadl/pyidea).
 
+## Fortran Wrapper
+
+A Fortran wrapper for IDEA is provided by Dr. Chongsoo Lee (Agency for Defense Development) at this link: [https://github.com/chongsoo89/IDEA](https://github.com/chongsoo89/IDEA).
+
 ## Citing IDEA
 Please cite the following article when mentioning IDEA in your own papers.
 
